@@ -118,7 +118,7 @@ CREATE TABLE FACTURA (
     monto NUMERIC(12,2) NOT NULL DEFAULT 0.00,
     descuento NUMERIC(5,2) NOT NULL DEFAULT 0.00,
     dni_cliente INT NOT NULL,
-    dni_vendedor INT NOT NULL,
+    nro_vendedor INT NOT NULL,
     CONSTRAINT pk_factura PRIMARY KEY (nro_factura),
     CONSTRAINT chk_factura_monto CHECK (monto >= 0.00),
     CONSTRAINT chk_factura_descuento CHECK (descuento >= 0.00 AND descuento <= 100.00),
@@ -126,8 +126,8 @@ CREATE TABLE FACTURA (
         REFERENCES CLIENTE(dni) 
         ON DELETE RESTRICT 
         ON UPDATE CASCADE,
-    CONSTRAINT fk_factura_vendedor FOREIGN KEY (dni_vendedor) 
-        REFERENCES VENDEDOR(dni) 
+    CONSTRAINT fk_factura_vendedor FOREIGN KEY (nro_vendedor) 
+        REFERENCES VENDEDOR(nro_vendedor) 
         ON DELETE RESTRICT 
         ON UPDATE CASCADE
 );
