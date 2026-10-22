@@ -78,20 +78,20 @@ INSERT INTO TIENE (id_zapato, nro_talle, cantidad) VALUES
 (3, 39, 25),
 (4, 42, 6);
 
-INSERT INTO FACTURA (fecha, monto, descuento, dni_cliente, dni_vendedor) VALUES
-('2025-06-15', 130000.00, 0.00, 35111222, 38123456); 
+INSERT INTO FACTURA (fecha, monto, descuento, dni_cliente, nro_vendedor) VALUES
+('2025-06-15', 130000.00, 0.00, 35111222, 1);
 
 INSERT INTO DET_FACTURACION (nro_factura, id_zapato, nro_talle, cant_venta, precio_venta) VALUES
 (1, 1, 40, 2, 65000.00);
 
-INSERT INTO FACTURA (fecha, monto, descuento, dni_cliente, dni_vendedor) VALUES
-('2025-11-20', 108000.00, 5.00, 32444555, 40987654); 
+INSERT INTO FACTURA (fecha, monto, descuento, dni_cliente, nro_vendedor) VALUES
+('2025-11-20', 108000.00, 5.00, 32444555, 2);
 
 INSERT INTO DET_FACTURACION (nro_factura, id_zapato, nro_talle, cant_venta, precio_venta) VALUES
 (2, 2, 41, 2, 54000.00);
 
-INSERT INTO FACTURA (fecha, monto, descuento, dni_cliente, dni_vendedor) VALUES
-('2026-03-10', 84000.00, 10.00, 28777888, 38123456); 
+INSERT INTO FACTURA (fecha, monto, descuento, dni_cliente, nro_vendedor) VALUES
+('2026-03-10', 84000.00, 10.00, 28777888, 1);
 
 INSERT INTO DET_FACTURACION (nro_factura, id_zapato, nro_talle, cant_venta, precio_venta) VALUES
 (3, 3, 39, 2, 42000.00);
