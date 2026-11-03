@@ -10,8 +10,7 @@ CREATE TABLE PERSONA (
 CREATE TABLE VENDEDOR (
     dni INT NOT NULL,
     nro_vendedor SERIAL NOT NULL,
-    CONSTRAINT pk_vendedor PRIMARY KEY (dni),
-    CONSTRAINT unq_vendedor_nro UNIQUE (nro_vendedor),
+    CONSTRAINT pk_vendedor PRIMARY KEY (dni, nro_vendedor),
     CONSTRAINT fk_vendedor_persona FOREIGN KEY (dni) 
         REFERENCES PERSONA(dni) 
         ON DELETE CASCADE 
