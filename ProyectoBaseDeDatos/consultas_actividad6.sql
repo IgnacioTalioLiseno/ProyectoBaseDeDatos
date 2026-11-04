@@ -1,12 +1,6 @@
--- ============================================================================
--- ACTIVIDAD 6: RESOLUCIÓN DE CONSULTAS SQL (Base de Datos Zapatería)
--- Motor: PostgreSQL
--- Base de datos: tp_zapateria
--- ============================================================================
 
--- ----------------------------------------------------------------------------
--- a) Devolver el Nº más vendido por cada modelo de zapatos.
--- ----------------------------------------------------------------------------
+--a) Devolver el Nº más vendido por cada modelo de zapatos.
+
 SELECT 
     z.modelo,
     df1.nro_talle AS numero_talle,
@@ -23,9 +17,9 @@ HAVING SUM(df1.cant_venta) >= ALL (
 ORDER BY z.modelo;
 
 
--- ----------------------------------------------------------------------------
+
 -- b) Listado de vendedores con sus ventas totales (monto total) durante 2025.
--- ----------------------------------------------------------------------------
+
 SELECT 
     v.nro_vendedor,
     p.apellido,
@@ -39,23 +33,9 @@ GROUP BY v.nro_vendedor, p.apellido, p.nombre
 ORDER BY monto_total_ventas_2025 DESC;
 
 
--- ----------------------------------------------------------------------------
--- c) Apellido y Nombre de los vendedores que no han tenido francos en enero de 2026.
--- ----------------------------------------------------------------------------
--- OPCIÓN 1: Subconsulta con NOT IN
-SELECT 
-    p.apellido, 
-    p.nombre
-FROM VENDEDOR v
-INNER JOIN PERSONA p ON (v.dni = p.dni)
-WHERE v.dni NOT IN (
-    SELECT f.dni_vendedor
-    FROM FRANCO f
-    WHERE f.fecha BETWEEN '2026-01-01' AND '2026-01-31'
-)
-ORDER BY p.apellido, p.nombre;
 
--- OPCIÓN 2: Subconsulta con NOT EXISTS
+-- c) Apellido y Nombre de los vendedores que no han tenido francos en enero de 2026.
+
 SELECT 
     p.apellido, 
     p.nombre
@@ -69,14 +49,7 @@ WHERE NOT EXISTS (
 )
 ORDER BY p.apellido, p.nombre;
 
-
--- ----------------------------------------------------------------------------
--- d) Consultas Propias (no menos de tres, al menos una con subconsultas)
--- ----------------------------------------------------------------------------
-
--- CONSULTA PROPIA 1 (Subconsulta con función agregada AVG en WHERE + LEFT OUTER JOIN y GROUP BY):
--- Enunciado:
--- "Listar los modelos de zapatos cuyo precio supera el precio promedio general 
+-- d)"Listar los modelos de zapatos cuyo precio supera el precio promedio general 
 -- de todos los zapatos del catálogo, mostrando además cuántos proveedores diferentes 
 -- abastecen a dicho modelo."
 SELECT 
@@ -91,8 +64,7 @@ GROUP BY z.id_zapato, z.modelo, z.color, z.precio
 ORDER BY z.precio DESC;
 
 
--- CONSULTA PROPIA 2 (Subconsulta con NOT IN, Agrupación y HAVING):
--- Enunciado:
+-- Subconsulta con NOT IN, Agrupación y HAVING
 -- "Identificar aquellos modelos de calzados que actualmente cuentan con stock disponible 
 -- en el depósito (tabla TIENE), pero que todavía nunca han sido vendidos en ninguna factura."
 SELECT 
@@ -112,8 +84,7 @@ HAVING SUM(t.cantidad) > 0
 ORDER BY stock_total_en_deposito DESC;
 
 
--- CONSULTA PROPIA 3 (Reuniones INNER JOIN, GROUP BY y filtro por agregación HAVING):
--- Enunciado:
+
 -- "Listar los clientes mayoristas que han acumulado compras superiores a $100.000, 
 -- detallando su DNI, Nombre completo, porcentaje de descuento asignado y el total gastado."
 SELECT 
