@@ -8,7 +8,7 @@ public class Metodos {
     try (Connection conn = Conexion.conectar();
         PreparedStatement sentenciaPreparada = conn.prepareStatement(sql)) {
 
-      sentenciaPreparada.setLong(1, cuit);
+      sentenciaPreparada.setLong(1, cuit); 
       sentenciaPreparada.setString(2, razonSoc);
       sentenciaPreparada.setString(3, direccion);
       sentenciaPreparada.setString(4, telFijo);

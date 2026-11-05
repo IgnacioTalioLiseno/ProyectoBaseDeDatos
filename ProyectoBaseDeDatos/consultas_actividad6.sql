@@ -1,12 +1,10 @@
-
 --a) Devolver el Nº más vendido por cada modelo de zapatos.
-
 SELECT 
     z.modelo,
-    df1.nro_talle AS numero_talle,
+    df1.nro_talle AS talle_mas_vendido,
     SUM(df1.cant_venta) AS unidades_vendidas
 FROM DET_FACTURACION df1
-INNER JOIN ZAPATO z ON (df1.id_zapato = z.id_zapato)
+INNER JOIN ZAPATO z ON df1.id_zapato = z.id_zapato
 GROUP BY z.id_zapato, z.modelo, df1.nro_talle
 HAVING SUM(df1.cant_venta) >= ALL (
     SELECT SUM(df2.cant_venta)
@@ -16,10 +14,7 @@ HAVING SUM(df1.cant_venta) >= ALL (
 )
 ORDER BY z.modelo;
 
-
-
 -- b) Listado de vendedores con sus ventas totales (monto total) durante 2025.
-
 SELECT 
     v.nro_vendedor,
     p.apellido,
@@ -32,10 +27,7 @@ LEFT OUTER JOIN FACTURA f ON (v.nro_vendedor = f.nro_vendedor
 GROUP BY v.nro_vendedor, p.apellido, p.nombre
 ORDER BY monto_total_ventas_2025 DESC;
 
-
-
 -- c) Apellido y Nombre de los vendedores que no han tenido francos en enero de 2026.
-
 SELECT 
     p.apellido, 
     p.nombre
@@ -49,24 +41,11 @@ WHERE NOT EXISTS (
 )
 ORDER BY p.apellido, p.nombre;
 
--- d)"Listar los modelos de zapatos cuyo precio supera el precio promedio general 
--- de todos los zapatos del catálogo, mostrando además cuántos proveedores diferentes 
--- abastecen a dicho modelo."
-SELECT 
-    z.modelo, 
-    z.color, 
-    z.precio,
-    COUNT(DISTINCT pr.cuit) AS cantidad_proveedores
-FROM ZAPATO z
-LEFT OUTER JOIN PROVEE pr ON (z.id_zapato = pr.id_zapato)
-WHERE z.precio > (SELECT AVG(precio) FROM ZAPATO)
-GROUP BY z.id_zapato, z.modelo, z.color, z.precio
-ORDER BY z.precio DESC;
+-- d)Consultas propias:
 
-
--- Subconsulta con NOT IN, Agrupación y HAVING
--- "Identificar aquellos modelos de calzados que actualmente cuentan con stock disponible 
--- en el depósito (tabla TIENE), pero que todavía nunca han sido vendidos en ninguna factura."
+--"Identificar los modelos de calzados que actualmente cuentan con stock disponible, 
+-- pero que todavia nunca han sido vendidos en ningun factura. 
+--(subconsulta con NOT IN)
 SELECT 
     z.id_zapato, 
     z.modelo, 
@@ -83,19 +62,35 @@ GROUP BY z.id_zapato, z.modelo, z.color, z.precio
 HAVING SUM(t.cantidad) > 0
 ORDER BY stock_total_en_deposito DESC;
 
-
-
--- "Listar los clientes mayoristas que han acumulado compras superiores a $100.000, 
--- detallando su DNI, Nombre completo, porcentaje de descuento asignado y el total gastado."
+-- "listar los modelos de zapatos cuyo precio supera el promedio general de todos los zapatos,
+--mostrando tambien cuantos proveedores diferentes abastecen a dicho modelos.
+--(subconsulta con func. agregada AVG)
 SELECT 
-    m.dni, 
+    z.modelo, 
+    z.color, 
+    z.precio,
+    COUNT(DISTINCT pr.cuit) AS cantidad_proveedores
+FROM ZAPATO z
+LEFT OUTER JOIN PROVEE pr ON (z.id_zapato = pr.id_zapato)
+WHERE z.precio > (SELECT AVG(precio) FROM ZAPATO)
+GROUP BY z.id_zapato, z.modelo, z.color, z.precio
+ORDER BY z.precio DESC;
+
+--listar los clientes mayoristas que han acumulado compras superiores a $100.000, 
+--detallando su DNI, nombre completo, procentaje de descuento asignado y el total gastado
+--(subconsulta con IN) 
+SELECT 
+    f.dni_cliente AS dni, 
     p.apellido, 
     p.nombre, 
-    m.descuento AS porcentaje_descuento, 
+    (SELECT m.descuento FROM MAYORISTA m WHERE m.dni = f.dni_cliente) AS porcentaje_descuento,
     SUM(f.monto) AS monto_total_acumulado
-FROM MAYORISTA m
-INNER JOIN PERSONA p ON (m.dni = p.dni)
-INNER JOIN FACTURA f ON (m.dni = f.dni_cliente)
-GROUP BY m.dni, p.apellido, p.nombre, m.descuento
+FROM FACTURA f
+INNER JOIN PERSONA p ON (f.dni_cliente = p.dni)
+WHERE f.dni_cliente IN (
+    SELECT m.dni 
+    FROM MAYORISTA m
+)
+GROUP BY f.dni_cliente, p.apellido, p.nombre
 HAVING SUM(f.monto) > 100000.00
 ORDER BY monto_total_acumulado DESC;

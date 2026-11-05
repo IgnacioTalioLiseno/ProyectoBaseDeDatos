@@ -9,6 +9,6 @@ public class Main {
     dao.listarProveedores();
 
     // Prueba de eliminación por CUIT
-    // dao.eliminarProveedor(30711122223L);
+     dao.eliminarProveedor(30711122223L);
   }
 }

@@ -1,4 +1,3 @@
-
 CREATE TABLE PERSONA (
     dni INT NOT NULL,
     nombre VARCHAR(50) NOT NULL,
