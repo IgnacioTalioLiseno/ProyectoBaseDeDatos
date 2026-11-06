@@ -218,7 +218,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_aplicar_descuento_cliente
-BEFORE INSERT OR UPDATE OF monto, dni_cliente ON FACTURA
+BEFORE INSERT ON FACTURA
 FOR EACH ROW
 EXECUTE FUNCTION funcion_aplicar_descuento_cliente();
 
