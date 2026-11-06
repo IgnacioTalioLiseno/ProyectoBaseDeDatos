@@ -196,6 +196,31 @@ CREATE TABLE AUDITORIA_PRECIO_ZAPATO (
         ON DELETE CASCADE 
         ON UPDATE CASCADE
 );
+CREATE OR REPLACE FUNCTION funcion_aplicar_descuento_cliente()
+RETURNS TRIGGER AS $$
+DECLARE
+    v_descuento NUMERIC(5,2) := 0.00;
+BEGIN
+    SELECT descuento INTO v_descuento
+    FROM MAYORISTA
+    WHERE dni = NEW.dni_cliente;
+
+    IF FOUND THEN
+        NEW.descuento := v_descuento;
+    END IF;
+
+    IF NEW.descuento > 0.00 THEN
+        NEW.monto := NEW.monto * (1.00 - (NEW.descuento / 100.00));
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_aplicar_descuento_cliente
+BEFORE INSERT OR UPDATE OF monto, dni_cliente ON FACTURA
+FOR EACH ROW
+EXECUTE FUNCTION funcion_aplicar_descuento_cliente();
 
 CREATE OR REPLACE FUNCTION funcion_auditar_precio_zapato()
 RETURNS TRIGGER AS $$
