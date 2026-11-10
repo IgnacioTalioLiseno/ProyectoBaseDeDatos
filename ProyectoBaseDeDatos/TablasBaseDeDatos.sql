@@ -97,11 +97,11 @@ INSERT INTO TIENE (id_zapato, nro_talle, cantidad) VALUES
 
 INSERT INTO FACTURA (fecha, monto, descuento, dni_cliente, nro_vendedor) VALUES
 ('2025-05-10', 130000.00, 0.00, 35111222, 1), -- Fac 1 (2025, Vend 1, Mayorista)
-('2025-08-15', 108000.00, 5.00, 32444555, 2), -- Fac 2 (2025, Vend 2, Minorista)
-('2025-11-20', 162000.00, 0.00, 35111222, 1), -- Fac 3 (2025, Vend 1, Mayorista)
-('2025-12-05', 178000.00, 0.00, 28777888, 3), -- Fac 4 (2025, Vend 3, Mayorista)
-('2026-02-14', 84000.00, 10.00, 28777888, 1),  -- Fac 5 (2026)
-('2026-11-06', 108000.00, 0.00, 29456123, 1); 
+('2025-08-15', 378000.00, 5.00, 32444555, 2), -- Fac 2 (2025, Vend 2, Minorista)
+('2025-11-20', 325000.00, 0.00, 35111222, 1), -- Fac 3 (2025, Vend 1, Mayorista)
+('2025-12-05', 346000.00, 0.00, 28777888, 3), -- Fac 4 (2025, Vend 3, Mayorista)
+('2026-02-14', 89000.00, 10.00, 28777888, 1),  -- Fac 5 (2026)
+('2026-11-06', 108000.00, 0.00, 29456123, 1); --Fac 6
 
 -- Definimos ventas claras donde un talle vende más que otro para el inciso a)
 INSERT INTO DET_FACTURACION (nro_factura, id_zapato, nro_talle, cant_venta, precio_venta) VALUES
@@ -117,7 +117,7 @@ INSERT INTO DET_FACTURACION (nro_factura, id_zapato, nro_talle, cant_venta, prec
 --Zapato 3: Se venden 4 pares del talle 40. Talle 40 es el más vendido
 (4, 3, 40, 4, 42000.00),
 
--- Zapato 4: Se venden 2 pares del talle 42. Talle 42 es el más vendido
+-- Zapato 4: Se venden 3 pares del talle 42. Talle 42 es el más vendido
 (4, 4, 42, 2, 89000.00),
 (5, 4, 42, 1, 89000.00);
 
