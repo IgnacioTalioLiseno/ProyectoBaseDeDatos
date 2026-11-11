@@ -5,11 +5,12 @@ SELECT
     SUM(df1.cant_venta) AS unidades_vendidas
 FROM DET_FACTURACION df1
 INNER JOIN ZAPATO z ON df1.id_zapato = z.id_zapato
-GROUP BY z.id_zapato, z.modelo, df1.nro_talle
+GROUP BY z.modelo, df1.nro_talle
 HAVING SUM(df1.cant_venta) >= ALL (
     SELECT SUM(df2.cant_venta)
     FROM DET_FACTURACION df2
-    WHERE df2.id_zapato = z.id_zapato
+	INNER JOIN ZAPATO z2 ON df2.id_zapato = z2.id_zapato
+    WHERE z2.modelo = z.modelo
     GROUP BY df2.nro_talle
 )
 ORDER BY z.modelo;

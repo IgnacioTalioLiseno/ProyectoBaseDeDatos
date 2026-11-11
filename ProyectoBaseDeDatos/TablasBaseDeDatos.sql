@@ -68,7 +68,8 @@ INSERT INTO ZAPATO (color, modelo, precio) VALUES
 ('Marrón', 'Zapato Náutico Cuero', 54000.00),       -- ID 2
 ('Blanco', 'Zapatilla Deportiva Classic', 42000.00), -- ID 3
 ('Suela', 'Borcego Trekking', 89000.00),            -- ID 4
-('Rojo', 'Stiletto Elegance', 72000.00);             -- ID 5 (Sin ventas para la subconsulta)       
+('Rojo', 'Stiletto Elegance', 72000.00),             -- ID 5 (Sin ventas para la subconsulta)
+('Blanco', 'Bota Chelsea Urbano', 65000.00); 		--ID 6
 
 -- PROVEEDORES POR ZAPATO
 INSERT INTO PROVEE (cuit, id_zapato) VALUES
@@ -78,7 +79,9 @@ INSERT INTO PROVEE (cuit, id_zapato) VALUES
 (33544332219, 3),
 (30655443322, 4),
 (30998877665, 4),
-(30711223344, 5);
+(30711223344, 5),
+(30711223344, 6);
+
 
 --Stock deposito por talle(todos los pares que se van a vender tienen que existir acá primero)
 INSERT INTO TIENE (id_zapato, nro_talle, cantidad) VALUES
@@ -93,7 +96,8 @@ INSERT INTO TIENE (id_zapato, nro_talle, cantidad) VALUES
 (4, 41, 14),
 (4, 42, 16),
 (5, 37, 10), -- Zapato 5 tiene stock pero NUNCA se vende en DET_FACTURACION
-(5, 38, 8);
+(5, 38, 8),
+(6, 39, 30);
 
 INSERT INTO FACTURA (fecha, monto, descuento, dni_cliente, nro_vendedor) VALUES
 ('2025-05-10', 130000.00, 0.00, 35111222, 1), -- Fac 1 (2025, Vend 1, Mayorista)
@@ -101,7 +105,8 @@ INSERT INTO FACTURA (fecha, monto, descuento, dni_cliente, nro_vendedor) VALUES
 ('2025-11-20', 325000.00, 0.00, 35111222, 1), -- Fac 3 (2025, Vend 1, Mayorista)
 ('2025-12-05', 346000.00, 0.00, 28777888, 3), -- Fac 4 (2025, Vend 3, Mayorista)
 ('2026-02-14', 89000.00, 10.00, 28777888, 1),  -- Fac 5 (2026)
-('2026-11-06', 108000.00, 0.00, 29456123, 1); --Fac 6
+('2026-11-06', 108000.00, 0.00, 29456123, 1), --Fac 6
+('2025-06-20', 390000.00, 0.00, 35111222, 1); -- Fac 7
 
 -- Definimos ventas claras donde un talle vende más que otro para el inciso a)
 INSERT INTO DET_FACTURACION (nro_factura, id_zapato, nro_talle, cant_venta, precio_venta) VALUES
@@ -119,7 +124,10 @@ INSERT INTO DET_FACTURACION (nro_factura, id_zapato, nro_talle, cant_venta, prec
 
 -- Zapato 4: Se venden 3 pares del talle 42. Talle 42 es el más vendido
 (4, 4, 42, 2, 89000.00),
-(5, 4, 42, 1, 89000.00);
+(5, 4, 42, 1, 89000.00),
+
+--Zapato 6
+(1, 6, 39, 6, 65000.00);
 
 
 
